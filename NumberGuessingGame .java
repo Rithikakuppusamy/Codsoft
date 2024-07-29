@@ -1,57 +1,47 @@
-package cloud;
-
 import java.util.Random;
 import java.util.Scanner;
 
 public class NumberGuessingGame {
+    private static final int MAX_ATTEMPTS = 5;
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         Random random = new Random();
-        int lowerBound = 1;
-        int upperBound = 100;
-        int maxAttempts = 10;
-        int rounds = 0;
-        int score = 0;
         boolean playAgain = true;
+        int roundsWon = 0;
 
         while (playAgain) {
-            int generatedNumber = random.nextInt(upperBound - lowerBound + 1) + lowerBound;
+            int targetNumber = random.nextInt(100) + 1;
+            boolean hasGuessedCorrectly = false;
             int attempts = 0;
-            boolean guessedCorrectly = false;
 
-            System.out.println("Round " + (rounds + 1) + ":");
-            System.out.println("Guess the number between " + lowerBound + " and " + upperBound + ". You have " + maxAttempts + " attempts.");
+            System.out.println("Guess the number between 1 and 100!");
 
-            while (attempts < maxAttempts && !guessedCorrectly) {
+            while (attempts < MAX_ATTEMPTS && !hasGuessedCorrectly) {
                 System.out.print("Enter your guess: ");
                 int guess = scanner.nextInt();
                 attempts++;
 
-                if (guess < generatedNumber) {
-                    System.out.println("Too low!");
-                } else if (guess > generatedNumber) {
-                    System.out.println("Too high!");
+                if (guess == targetNumber) {
+                    System.out.println("Correct! You've guessed the number.");
+                    hasGuessedCorrectly = true;
+                    roundsWon++;
+                } else if (guess < targetNumber) {
+                    System.out.println("Too low. Try again.");
                 } else {
-                    System.out.println("Correct!");
-                    guessedCorrectly = true;
-                    score++;
+                    System.out.println("Too high. Try again.");
                 }
             }
 
-            if (!guessedCorrectly) {
-                System.out.println("Sorry, you've used all your attempts. The correct number was: " + generatedNumber);
+            if (!hasGuessedCorrectly) {
+                System.out.println("Sorry, you've used all attempts. The correct number was " + targetNumber);
             }
 
-            System.out.println("Your current score: " + score);
-            rounds++;
-
             System.out.print("Do you want to play again? (yes/no): ");
-            String response = scanner.next();
-            playAgain = response.equalsIgnoreCase("yes");
+            playAgain = scanner.next().equalsIgnoreCase("yes");
         }
 
-        System.out.println("Game over. You played " + rounds + " rounds and your final score is: " + score);
+        System.out.println("Game over! You've won " + roundsWon + " round(s).");
         scanner.close();
     }
 }
-
