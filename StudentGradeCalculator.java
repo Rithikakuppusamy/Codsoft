@@ -2,7 +2,7 @@
 
 import java.util.Scanner;
 
-public class stugrade {
+public class StudentGradeCalculator {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
